@@ -9,8 +9,11 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-
-
+@Builder
+@Entity
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class Purchased {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,5 +25,6 @@ public class Purchased {
     private int quantity;
     private double unitPrice;
     private double totalPrice;
+
 
 }
