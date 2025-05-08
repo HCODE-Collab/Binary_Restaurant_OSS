@@ -18,6 +18,7 @@ public class Purchased {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    private Long customerId;
     private String CustomerName;
     private String date;
     private String productId;

@@ -5,23 +5,21 @@ import com.example.binary_supermarket.entity.Purchased;
 import com.example.binary_supermarket.repository.PurchasedRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/purchase")
+@RequestMapping("/api/purchases") // consistent with frontend: /purchases/{customerId}
 @RequiredArgsConstructor
 public class PurchaseController {
 
     private final PurchasedRepository purchasedRepository;
 
-    @GetMapping
-    public ResponseEntity<?> all() {
-        List<Purchased> purchases = purchasedRepository.findAll();
+    @GetMapping("/{customerId}")
+    public ResponseEntity<List<PurchaseReportDTO>> getCustomerPurchases(@PathVariable Long customerId) {
+        List<Purchased> purchases = purchasedRepository.findByCustomerId(customerId);
         List<PurchaseReportDTO> report = new ArrayList<>();
         int counter = 1;
 

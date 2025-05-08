@@ -16,9 +16,10 @@ public class ProductController {
     private final ProductRepository productRepository;
 
     @PostMapping
-    public ResponseEntity<Product> addProduct(@RequestBody Product product) {
+    public ResponseEntity<?> createProduct(@RequestBody Product product) {
         return ResponseEntity.ok(productRepository.save(product));
     }
+
     @GetMapping
     public ResponseEntity<List<Product>> getAllProducts() {
         return ResponseEntity.ok(productRepository.findAll());

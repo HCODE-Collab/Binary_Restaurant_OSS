@@ -9,6 +9,7 @@ import com.example.binary_supermarket.repository.CartItemRepository;
 import com.example.binary_supermarket.repository.CustomerRepository;
 import com.example.binary_supermarket.repository.ProductRepository;
 import com.example.binary_supermarket.repository.PurchasedRepository;
+import jakarta.transaction.Transactional;
 import lombok.Builder;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -42,6 +43,7 @@ public class CartController {
         List<CartItem> cart = cartItemRepository.findByCustomerId(customerId);
         return ResponseEntity.ok(cart);
     }
+    @Transactional
     @PostMapping("/checkout/{customerId}")
     public ResponseEntity<?> checkout(@PathVariable Long customerId) {
         List<CartItem> cartItems = cartItemRepository.findByCustomerId(customerId);
@@ -51,6 +53,7 @@ public class CartController {
         List<Purchased> purchases = cartItems.stream().map(item -> {
             Product product = productRepository.findById(item.getProductId()).orElseThrow();
             return Purchased.builder()
+                    .customerId(customerId)
                     .CustomerName(customer.getName())
                     .productId(String.valueOf(product.getId()))
                     .productName(product.getName())
@@ -65,6 +68,7 @@ public class CartController {
         cartItemRepository.deleteByCustomerId(customerId);
 
         return ResponseEntity.ok("Checkout complete!");
+
     }
 
 }
